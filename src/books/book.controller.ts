@@ -4,16 +4,17 @@ import { BooksService } from './book.service';
 import { Book } from './entity/book.entity';
 import { AddBookDto } from './dto/add-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { BookDto } from './dto/book.dto';
 
 
 @ApiTags('books')
 @Controller('books')
 export class BooksController {
-  constructor(private readonly booksService: BooksService) {}
+  constructor(private readonly booksService: BooksService) { }
 
   @Get()
   @ApiOperation({ summary: 'Get all books', description: 'Get a list of all books.' })
-  @ApiResponse({ status: 200, description: 'Successful operation', type: [Book] })
+  @ApiResponse({ status: 200, description: 'Successful operation', type: [BookDto] })
   async getAllBooks(): Promise<Book[]> {
     return this.booksService.getAllBooks();
   }
@@ -21,7 +22,7 @@ export class BooksController {
   @Get(':id')
   @ApiOperation({ summary: 'Get a specific book', description: 'Get details of a specific book by ID.' })
   @ApiParam({ name: 'id', description: 'Book ID' })
-  @ApiResponse({ status: 200, description: 'Successful operation', type: Book })
+  @ApiResponse({ status: 200, description: 'Successful operation', type: BookDto })
   @ApiResponse({ status: 404, description: 'Book not found' })
   async getBookById(@Param('id') id: number): Promise<Book> {
     const book = await this.booksService.getBookById(id);
@@ -33,8 +34,8 @@ export class BooksController {
 
   @Post()
   @ApiOperation({ summary: 'Add a new book', description: 'Add a new book to the collection.' })
-  @ApiBody({ type: Book })
-  @ApiResponse({ status: 201, description: 'Book created successfully', type: Book })
+  @ApiBody({ type: AddBookDto })
+  @ApiResponse({ status: 201, description: 'Book created successfully', type: BookDto })
   async addBook(@Body() bookDto: AddBookDto): Promise<Book> {
     return this.booksService.addBook(bookDto);
   }
@@ -42,8 +43,8 @@ export class BooksController {
   @Put(':id')
   @ApiOperation({ summary: 'Update an existing book', description: 'Update details of an existing book by ID.' })
   @ApiParam({ name: 'id', description: 'Book ID' })
-  @ApiBody({ type: Book })
-  @ApiResponse({ status: 200, description: 'Successful operation', type: Book })
+  @ApiBody({ type: UpdateBookDto })
+  @ApiResponse({ status: 200, description: 'Successful operation', type: BookDto })
   @ApiResponse({ status: 404, description: 'Book not found' })
   async updateBook(@Param('id') id: number, @Body() updatedBook: UpdateBookDto): Promise<Book> {
     const book = await this.booksService.updateBook(id, updatedBook);
@@ -56,12 +57,12 @@ export class BooksController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a book', description: 'Delete a book by ID.' })
   @ApiParam({ name: 'id', description: 'Book ID' })
-  @ApiResponse({ status: 204, description: 'Book deleted successfully' })
   @ApiResponse({ status: 404, description: 'Book not found' })
-  async deleteBook(@Param('id') id: number): Promise<void> {
+  async deleteBook(@Param('id') id: number) {
     const result = await this.booksService.deleteBook(id);
     if (!result) {
       throw new NotFoundException(`Book with id ${id} not found`);
     }
+    return result
   }
 }

@@ -11,6 +11,6 @@ export class Book {
   @Column({ name: 'author', length: 60, nullable: false })
   author: string;
 
-  @Column({ name: 'publishedDate', length: 60, nullable: false })
+  @Column({ name: 'publishedDate', nullable: false })
   publishedDate: Date;
 }

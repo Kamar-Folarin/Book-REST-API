@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  book-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+      - docker-constants.env
+    depends_on:
+      - mssql
+
+  mssql:
+    image: mcr.microsoft.com/azure-sql-edge
+    environment:
+      SA_PASSWORD: ${MSSQL_PASSWORD}
+      ACCEPT_EULA: 'Y'
+      MSSQL_PID: 'Express'
+      MSSQL_DATABASE: ${MSSQL_DATABASE}
+      MSSQL_USER: ${MSSQL_USERNAME}
+      MSSQL_PASSWORD: ${MSSQL_PASSWORD}
+    ports:
+      - '1434:1433'
+    env_file:
+      - docker-constants.env

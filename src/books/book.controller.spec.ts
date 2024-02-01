@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { AddBookDto } from './dto/add-book.dto';
 import { BooksController } from './book.controller';
@@ -77,7 +76,7 @@ describe('BooksController', () => {
 
   describe('POST /books', () => {
     it('should add a new book', async () => {
-      const createBookDto: AddBookDto = { title: 'New Book', author: 'Author', publishedDate: 2022-10-11 };
+      const createBookDto: AddBookDto = { title: 'New Book', author: 'Author', publishedDate: new Date('2022-01-30T12:00:00.000Z') };
       const expectedResult = { id: 1, ...createBookDto };
       mockBooksService.addBook.mockReturnValueOnce(expectedResult);
 

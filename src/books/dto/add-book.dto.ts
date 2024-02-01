@@ -13,12 +13,8 @@ export class AddBookDto {
   @IsString()
   author: string;
 
-//   @ApiProperty({ description: 'Published date of the book in YYYY-MM-DD or YYYY/MM/DD format' })
-//   @IsNotEmpty()
-//   @Transform(({ value }) => new Date(value))
-//   publishedDate: Date;
 
-@ApiProperty({
+  @ApiProperty({
     description: 'Published date of the book in YYYY-MM-DD format',
     example: '2022-01-30',
   })
