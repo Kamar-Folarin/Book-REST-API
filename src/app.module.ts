@@ -17,7 +17,8 @@ import { Book } from './books/entity/book.entity';
       password: process.env.MSSQL_PASSWORD,
       database: process.env.MSSQL_DATABASE,
       options: {
-        encrypt: false,
+        encrypt: true,
+        trustServerCertificate: true,
       },
       synchronize: true,
       entities: [Book],
